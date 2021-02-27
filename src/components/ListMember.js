@@ -35,6 +35,9 @@ class ListMember extends React.Component {
     }
 
     handleRemove () {
+        
+        if (this.state.selectedKey == -1) return;
+
         this.setState({
             memberListData : update(this.state.memberListData, {$splice:[[this.state.selectedKey, 1]]})
             , selectedKey : -1
@@ -42,6 +45,7 @@ class ListMember extends React.Component {
     }
 
     handleEdit (name, phone) {
+        
         this.setState({
             memberListData : update(this.state.memberListData,
                 {
@@ -82,7 +86,8 @@ class ListMember extends React.Component {
                 <h3>title : {this.props.title}</h3>
                 <div><input type="text" name="searchKeyWord" onChange={this.handleChange} placeholder="name"/></div>
                 <div>{memberArr(this.state.memberListData)}</div>
-                <MemberDetail isSelected={this.state.selectedKey == -1 ? false : true} memberData={this.state.memberListData[this.state.selectedKey]}/>
+                <MemberDetail isSelected={this.state.selectedKey == -1 ? false : true} memberData={this.state.memberListData[this.state.selectedKey]} onRemove={this.handleRemove} onEdit={this.handleEdit}/>
+                <MemberCreate onCreate={this.handleCreate}/>
             </div>
         )
     }
